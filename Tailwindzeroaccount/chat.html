@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                },
+                fontFamily: {
+                    poppins: ['Poppins', 'sans-serif'],
+                    Montserrat: ['Montserrat', 'sans-serif']
+                },
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        /* Google Fonts Import Link */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 260px;
+            background: #11101d;
+            z-index: 100;
+            transition: all 0.5s ease;
+        }
+
+        .sidebar.close {
+            width: 78px;
+        }
+
+        .sidebar .logo-details {
+            height: 60px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .logo-details i {
+            font-size: 30px;
+            color: #fff;
+            height: 50px;
+            min-width: 78px;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .sidebar .logo-details .logo_name {
+            font-size: 22px;
+            color: #fff;
+            font-weight: 600;
+            transition: 0.3s ease;
+            transition-delay: 0.1s;
+        }
+
+        .sidebar.close .logo-details .logo_name {
+            transition-delay: 0s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sidebar .nav-links {
+            height: 100%;
+            padding: 30px 0 150px 0;
+            overflow: auto;
+        }
+
+        .sidebar.close .nav-links {
+            overflow: visible;
+        }
+
+        .sidebar .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar .nav-links li {
+            position: relative;
+            list-style: none;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar .nav-links li:hover {
+            background: #1d1b31;
+        }
+
+        .sidebar .nav-links li .iocn-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar.close .nav-links li .iocn-link {
+            display: block
+        }
+
+        .sidebar .nav-links li i {
+            height: 50px;
+            min-width: 78px;
+            text-align: center;
+            line-height: 50px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-links li.showMenu i.arrow {
+            transform: rotate(-180deg);
+        }
+
+        .sidebar.close .nav-links i.arrow {
+            display: none;
+        }
+
+        .sidebar .nav-links li a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-links li a .link_name {
+            font-size: 18px;
+            font-weight: 400;
+            color: #fff;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar.close .nav-links li a .link_name {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sidebar .nav-links li .sub-menu {
+            padding: 6px 6px 14px 80px;
+            margin-top: -10px;
+            background: #1d1b31;
+            display: none;
+        }
+
+        .sidebar .nav-links li.showMenu .sub-menu {
+            display: block;
+        }
+
+        .sidebar .nav-links li .sub-menu a {
+            color: #fff;
+            font-size: 15px;
+            padding: 5px 0;
+            white-space: nowrap;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-links li .sub-menu a:hover {
+            opacity: 1;
+        }
+
+        .sidebar.close .nav-links li .sub-menu {
+            position: absolute;
+            left: 100%;
+            top: -10px;
+            margin-top: 0;
+            padding: 10px 20px;
+            border-radius: 0 6px 6px 0;
+            opacity: 0;
+            display: block;
+            pointer-events: none;
+            transition: 0s;
+        }
+
+        .sidebar.close .nav-links li:hover .sub-menu {
+            top: 0;
+            opacity: 1;
+            pointer-events: auto;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar .nav-links li .sub-menu .link_name {
+            display: none;
+        }
+
+        .sidebar.close .nav-links li .sub-menu .link_name {
+            font-size: 18px;
+            opacity: 1;
+            display: block;
+        }
+
+        .sidebar .nav-links li .sub-menu.blank {
+            opacity: 1;
+            pointer-events: auto;
+            padding: 3px 20px 6px 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sidebar .nav-links li:hover .sub-menu.blank {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sidebar .profile-details {
+            position: fixed;
+            bottom: 0;
+            width: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1d1b31;
+            padding: 12px 0;
+            transition: all 0.5s ease;
+        }
+
+        .sidebar.close .profile-details {
+            background: none;
+        }
+
+        .sidebar.close .profile-details {
+            width: 78px;
+        }
+
+        .sidebar .profile-details .profile-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .profile-details img {
+            height: 52px;
+            width: 52px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 0 14px 0 12px;
+            background: #1d1b31;
+            transition: all 0.5s ease;
+        }
+
+        .sidebar.close .profile-details img {
+            padding: 10px;
+        }
+
+        .sidebar .profile-details .profile_name,
+        .sidebar .profile-details .job {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .sidebar.close .profile-details i,
+        .sidebar.close .profile-details .profile_name,
+        .sidebar.close .profile-details .job {
+            display: none;
+        }
+
+        .sidebar .profile-details .job {
+            font-size: 12px;
+        }
+
+        .home-section {
+            position: relative;
+            background: #E4E9F7;
+            height: 100vh;
+            left: 260px;
+            width: calc(100% - 260px);
+            transition: all 0.5s ease;
+        }
+
+        .sidebar.close~.home-section {
+            left: 78px;
+            width: calc(100% - 78px);
+        }
+
+        .home-section .home-content {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .home-section .home-content .bx-menu,
+        .home-section .home-content .text {
+            color: #11101d;
+            font-size: 35px;
+        }
+
+        .home-section .home-content .bx-menu {
+            margin: 0 15px;
+            cursor: pointer;
+        }
+
+        .home-section .home-content .text {
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 400px) {
+            .sidebar.close .nav-links li .sub-menu {
+                display: none;
+            }
+
+            .sidebar {
+                width: 78px;
+            }
+
+            .sidebar.close {
+                width: 0;
+            }
+
+            .home-section {
+                left: 78px;
+                width: calc(100% - 78px);
+                z-index: 100;
+            }
+
+            .sidebar.close~.home-section {
+                width: 100%;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-poppins">
+    <div class="bg-[#EEF2F7] font-poppins dark:bg-gray-800">
+        <div class="sidebar close">
+            <div class="logo-details">
+                <a href="index.html" class=""><i class="bx bx-pie-chart-alt-2"></i></a>
+                <a href="index.html" class="">  <span class="logo_name">Lipika </span></a>
+            </div>
+            <ul class="nav-links border-r border-gray-200 dark:border-gray-700">  
+                <li>
+                    <a href="index.html">
+                        <i class='bx bx-grid-alt'></i>
+                        <span class="link_name">Dashboard</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class='bx bxs-store-alt'></i>
+                       
+                            <span class="link_name"> Inventory</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow'></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li class="">
+                          
+                                <a href="purchaseentry.html" class="flex justify-between font-medium text-gray-700">
+                                   
+                                  Purchase Entry
+                                    <span>
+                                    </span></a>                  
+                        </li>
+                        
+                    <li class="">
+                          
+                        <a href="salesinvoice.html" class="flex justify-between font-medium text-gray-700">
+                      Sale Entry
+                            <span>
+                           </span></a>                  
+                </li>
+                <li class="">
+                          
+                    <a href="stockin.html" class="flex justify-between font-medium text-gray-700">
+                 Stock In
+                        <span>
+                        </span></a>                  
+            </li>
+            <li class="">
+                          
+                <a href="stockout.html" class="flex justify-between font-medium text-gray-700">
+             Stock Out
+                    <span>
+                  </span></a>                  
+        </li>
+        <li class="">
+                          
+            <a href="manufacturinginvoice.html" class="flex justify-between font-medium text-gray-700">
+        Manufacturing Invoice
+                <span>
+              </span></a>                  
+    </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="iocn-link">
+                            <a href="#">
+                                <i class='bx bxs-coupon'></i>
+                           
+                                <span class="link_name"> Voucher</span>
+                            </a>
+                            <i class='bx bxs-chevron-down arrow'></i>
+                        </div>
+                        <ul class="sub-menu">
+                            <li class="">
+                              
+                                    <a href="journal voucher.html" class="flex justify-between font-medium text-gray-700">
+                                       
+                                     Journal Voucher
+                                        <span>
+                                       </span></a>                  
+                            </li>
+                            <li class="">
+                              
+                                <a href="Salesentry.html" class="flex justify-between font-medium text-gray-700">
+                                Sales Entry
+                                    <span>
+                                   </span></a>                  
+                        </li>
+                        
+                    <li class="">
+                              
+                        <a href="stockin.html" class="flex justify-between font-medium text-gray-700">
+                     Stock In
+                            <span>
+                           </span></a>                  
+                </li>
+                <li class="">
+                              
+                    <a href="stockout.html" class="flex justify-between font-medium text-gray-700">
+                 Stock Out
+                        <span>
+                       </span></a>                  
+            </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <div class="iocn-link">
+                                <a href="#">
+                                    <i class='bx bx-file'></i>
+                                    <span class="link_name"> Reports</span>
+                                </a>
+                                <i class="bx bxs-chevron-down arrow"></i>
+                            </div>
+                            <ul class="sub-menu">
+                                <li class="">
+                                    <div class="flex justify-between hasSub hasSubMenu group items-center">
+                                        <button class="py-2 ">
+                                            Account Reports
+                                        </button>
+                                        <a href="#" class="group-hover:text-indigo-500 inline-block ml-auto">
+                                            <svg data-baseweb="icon" viewBox="0 0 24 24" class="ml-1 w-6 h-6 fill-current chevron">
+                                                <title>Chevron Down</title>
+                                                <path transform="rotate(270, 12, 12)" fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z">
+                                                </path>
+                                            </svg> </a>
+                                    </div>
+                                    <ul class="text-sm subMenu hidden">
+                                        <li class="">
+                                          
+                                                <a href="reports.html" class="flex justify-between font-medium text-gray-700">
+                                                   
+                                                    Account Reports
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                           
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="ledger.html" class="flex justify-between">
+                                                    <span>
+                                                   General Ledger</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="reports.html" class="flex justify-between">
+                                                    <span>
+                                                   Invoice</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="journal voucher.html" class="flex justify-between">
+                                                    <span>
+                                                   Sub Ledger</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="journal voucher.html" class="flex justify-between">
+                                                    <span>
+                                                  Trial Balance</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>                        
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="journal voucher.html" class="flex justify-between">
+                                                    <span>
+                                                   Balance Sheet</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>                        
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="journal voucher.html" class="flex justify-between">
+                                                    <span>
+                                                   Income Statement</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>                        
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="purchaseentry.html" class="flex justify-between">
+                                                    <span>
+                                                   Ageing Receivables</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>                        
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="purchaseentry.html" class="flex justify-between">
+                                                    <span>
+                                                   Scheme Report</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                                      </svg></span></a>
+                                            </div>                        
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="">
+                                    <div class="flex justify-between hasSub hasSubMenu1 items-center">
+                                        <button class="py-2 ">
+                                            Inventory Reports
+                                        </button>
+                                        <a href="#" class="inline-block ml-auto">
+                                            <svg data-baseweb="icon" viewBox="0 0 24 24" class="ml-1 w-6 h-6 fill-current chevron">
+                                                <title>Chevron Down</title>
+                                                <path transform="rotate(270, 12, 12)" fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z">
+                                                </path>
+                                            </svg> </a>
+                                    </div>
+                                    <ul class="subMenu hidden text-sm">
+                                        <li class="">
+                                          
+                                                <a href="stockin.html" class="flex justify-between font-medium text-gray-700">
+                                                   Stock Ledger
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                      </svg></span></a>
+                                           
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="stockout.html" class="flex justify-between">
+                                                    <span>
+                                                   Stock  Ledger Summary</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                      </svg></span></a>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="salesinvoice.html" class="flex justify-between">
+                                                    <span>
+                                                   Sales Register</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                      </svg></span></a>
+                                            </div>
+                                           
+                                        </li>
+                                        <li class="">
+                                            <div class="  hasSubMenu ">
+                                                <a href="salesinvoice.html" class="flex justify-between">
+                                                    <span>
+                                                   Sales Register</span>
+                                                    <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                      </svg></span></a>
+                                            </div>
+                                        </li>         
+                                    </ul> 
+                                </li>
+                                <li class="">
+                                    <div class="flex justify-between hasSub hasSubMenu2 items-center">
+                                        <button class="py-2 ">
+                                            AR/AP Reports
+                                        </button>
+                                        <a href="#" class="inline-block ml-auto">
+                                            <svg data-baseweb="icon" viewBox="0 0 24 24" class="ml-1 w-6 h-6 fill-current chevron">
+                                                <title>Chevron Down</title>
+                                                <path transform="rotate(270, 12, 12)" fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z">
+                                                </path>
+                                            </svg> </a>
+                                    </div>
+                                    <ul class="text-sm subMenu hidden ">
+                                        <li class="">                         
+                                            <a href="journal voucher.html" class="flex justify-between font-medium text-gray-700">
+                                              Customer Ledger
+                                                <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                  </svg></span></a>                  
+                                    </li>
+                                    <li class="">                         
+                                        <a href="journal voucher.html" class="flex justify-between font-medium text-gray-700">
+                                          Vendor Ledger
+                                            <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                              </svg></span></a>                  
+                                </li>
+                                <li class="">                         
+                                    <a href="journal voucher.html" class="flex justify-between font-medium text-gray-700">
+                                      Both Party Ledger
+                                        <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                          </svg></span></a>                  
+                            </li>
+                                    </ul>
+                                </li>
+                                <li class="">
+                                    <div class="flex justify-between hasSub hasSubMenu3 items-center">
+                                        <button class="py-2 ">
+                                            Tax Reports
+                                        </button>
+                                        <a href="#" class="inline-block ml-auto">
+                                            <svg data-baseweb="icon" viewBox="0 0 24 24" class="ml-1 w-6 h-6 fill-current chevron">
+                                                <title>Chevron Down</title>
+                                                <path transform="rotate(270, 12, 12)" fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z">
+                                                </path>
+                                            </svg> </a>
+                                    </div>
+                                    <ul class="subMenu hidden text-sm ">
+                                        <li class="">                         
+                                            <a href="#" class="flex justify-between font-medium text-gray-700">
+                                             Monthly VAT Report
+                                                <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                  </svg></span></a>                  
+                                    </li>
+                                    <li class="">                         
+                                        <a href="#" class="flex justify-between font-medium text-gray-700">
+                                        VAT Maskewari
+                                            <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                              </svg></span></a>                  
+                                </li>
+                                <li class="">                         
+                                    <a href="#" class="flex justify-between font-medium text-gray-700">
+                                    Sales VAT Register
+                                        <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                          </svg></span></a>                  
+                            </li>
+                            <li class="">                         
+                                <a href="#" class="flex justify-between font-medium text-gray-700">
+                               Sales VAT Register
+                                    <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                      </svg></span></a>                  
+                        </li>
+                        <li class="">                         
+                            <a href="#" class="flex justify-between font-medium text-gray-700">
+                           Sales Confirmation
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                  </svg></span></a>                  
+                    </li>
+                    <li class="">                         
+                        <a href="#" class="flex justify-between font-medium text-gray-700">
+                       Anex 13
+                            <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                              </svg></span></a>                  
+                </li>
+                <li class="">                         
+                    <a href="#" class="flex justify-between font-medium text-gray-700">
+                   More than one lakh
+                        <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                          </svg></span>
+                        </a>                  
+                </li>
+                                    </ul>
+                                </li>
+                                <li class="">
+                                    <div class="flex justify-between hasSub hasSubMenu4 items-center">
+                                        <button class="py-2 ">
+                                            System Reports
+                                        </button>
+                                        <a href="#" class="inline-block ml-auto">
+                                            <svg data-baseweb="icon" viewBox="0 0 24 24" class="ml-1 w-6 h-6 fill-current chevron">
+                                                <title>Chevron Down</title>
+                                                <path transform="rotate(270, 12, 12)" fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z">
+                                                </path>
+                                            </svg> </a>
+                                    </div>
+                                    <ul class="subMenu hidden text-sm">
+                                        <li class="">                         
+                                            <a href="#" class="flex justify-between font-medium text-gray-700">
+                                            Activity Log
+                                                <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                                  </svg></span></a>                  
+                                    </li>
+                                    <li class="">                         
+                                        <a href="#" class="flex justify-between font-medium text-gray-700">
+                                       Sales Cancellation Log
+                                            <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                              </svg></span></a>                  
+                                </li>
+                                <li class="">                         
+                                    <a href="#" class="flex justify-between font-medium text-gray-700">
+                                   Sales Materialized  View
+                                        <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="ml-1 w-6 h-6 bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                          </svg>
+                                        </span>
+                                        </a>                  
+                            </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>        
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class='bx bx-cog' ></i>
+                            <span class="link_name">Account Setting</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow'></i>
+                    </div>
+                    <ul class="sub-menu ">
+                        <div class="flex py-3 border-b border-gray-100  " x-data="{ open: false }">
+                            <button class="flex justify-between text-base font-medium hover:text-indigo-500 text-gray-500" @click="open = true">Account Setup</button>
+                            <div class="fixed right-0 z-[116]  top-0 -mt-16 left-0  flex items-center justify-center w-full bg-[#00000047]" x-show="open" style="min-height: 1100px; display: none;">
+                               
+                                    <div class="max-w-6xl py-16 px-16 mx-auto">     
+                                        <div class="bg-white rounded shadow-lg p-4 px-4 md:p-4 mb-4">
+                                       <div class="flex justify-between mb-4 items-center border-b border-gray-200 pb-4 mb-4">
+                                        <h2 class="text-gray-700 text-lg font-semibold">Account Setup</h2>      
+                                            <button @click="open = false" class="border border-transparent dark:text-gray-400 hover:text-indigo-600 dark:hover:text-gray-300" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-8 h-8 bi bi-x" viewBox="0 0 16 16">
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                       </div>
+                                       
+                                      <div class="flex flex-wrap items-center ">
+                                        <div class="w-full lg:w-1/2 px-3 mb-4">
+                                            
+                                                <label class="text-sm text-indigo-800" for="full_name">Accounting period from <span class="text-red-500">*</span></label>  
+                                                <input type="text" name="full_name" id="full_name" placeholder="2080-04-01" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+
+                                        </div> 
+                                        <div class="w-full lg:w-1/2 px-3 mb-4">   
+                                            <label class="text-sm text-indigo-800" for="full_name">Accounting period to <span class="text-red-500">*</span></label>  
+                                            <input type="text" name="full_name" id="full_name" placeholder="2080-04-01" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+
+                                    </div> 
+                                    <div class="w-full lg:w-1/2 px-3 mb-4">   
+                                        <label class="text-sm text-indigo-800" for="full_name">Cash<span class="text-red-500">*</span></label>  
+                                        <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                            <option value="">Account Group</option>
+                                            <option value="">Bank</option>
+                                            <option value="">Cash</option>
+                                        </select>
+                                </div> 
+                                <div class="w-full lg:w-1/2 px-3 mb-4">   
+                                    <label class="text-sm text-indigo-800" for="full_name">Default bank account<span class="text-red-500">*</span></label>  
+                                    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                        <option value="">Account Group</option>
+                                        <option value="">Bank</option>
+                                        <option value="">Cash</option>
+                                    </select>
+                            </div>
+                            <div class="w-full lg:w-1/2 px-3 mb-4">   
+                                <label class="text-sm text-indigo-800" for="full_name">Purchase account<span class="text-red-500">*</span></label>  
+                                <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                    <option value="">Inventory</option>
+                                    <option value="">Bank</option>
+                                    <option value="">Cash</option>
+                                </select>
+                        </div>
+                        <div class="w-full lg:w-1/2 px-3 mb-4">   
+                            <label class="text-sm text-indigo-800" for="full_name">Sales account<span class="text-red-500">*</span></label>  
+                            <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                <option value="">Inventory</option>
+                                <option value="">Bank</option>
+                                <option value="">Cash</option>
+                            </select>
+                    </div>
+                    <div class="w-full lg:w-1/2 px-3 mb-4">   
+                        <label class="text-sm text-indigo-800" for="full_name">Sales discount account<span class="text-red-500">*</span></label>  
+                        <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                            <option value="">Sales discount</option>
+                            <option value="">Bank</option>
+                            <option value="">Cash</option>
+                        </select>
+                </div>
+                <div class="w-full lg:w-1/2 px-3 mb-4">   
+                    <label class="text-sm text-indigo-800" for="full_name">Purchase discount account<span class="text-red-500">*</span></label>  
+                    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                        <option value="">Discount on purchase</option>
+                        <option value="">Bank</option>
+                        <option value="">Cash</option>
+                    </select>
+            </div>
+            <div class="w-full lg:w-1/2 px-3 mb-4">   
+                <label class="text-sm text-indigo-800" for="full_name">Card swip charge account<span class="text-red-500">*</span></label>  
+                <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                    <option value="">Discount on purchase</option>
+                    <option value="">Bank</option>
+                    <option value="">Cash</option>
+                </select>
+        </div>
+      
+    <div class="w-full lg:w-1/2 px-3 mb-4">   
+        <label class="text-sm text-indigo-800" for="full_name">Sales VAT account<span class="text-red-500">*</span></label>  
+        <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+            <option value="">Discount on purchase</option>
+            <option value="">Bank</option>
+            <option value="">Cash</option>
+        </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">Purchase VAT account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Discount on purchase</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">VAT account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Discount on purchase</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">Staff account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Discount on purchase</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">Customer account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Discount on purchase</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">Vendor account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Discount on purchase</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>
+<div class="w-full lg:w-1/2 px-3 mb-4">   
+    <label class="text-sm text-indigo-800" for="full_name">Cost of good sold account<span class="text-red-500">*</span></label>  
+    <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+        <option value="">Cost of good sold</option>
+        <option value="">Bank</option>
+        <option value="">Cash</option>
+    </select>
+</div>                                                                  
+                                      </div>
+                                                                        
+                               <div class="flex justify-end">
+                                <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-100 border border-transparent border-indigo-600 rounded-md shadow-sm bg-indigo-500 hover:text-gray-100 hover:bg-indigo-700 focus:outline-none dark:hover:bg-indigo-500 dark:text-gray-100 dark:bg-indigo-400 focus:ring-2 focus:ring-offset-2 dark:focus:ring-0 dark:focus:ring-offset-0 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">Save</button>
+                                 
+                                </div>
+                            </div>
+                            </div>
+                        </div>  
+                     </div>
+                    <li class="">                         
+                        <a href="#" class="flex justify-between font-medium text-gray-700">
+                    Account Groups
+                           </a>                  
+                </li>
+                <li class="">                         
+                    <a href="#" class="flex justify-between font-medium text-gray-700">
+                   Chart of Accounts
+                        <span>
+                       </span></a>                  
+            </li>
+            <li class="">                         
+                <a href="#" class="flex justify-between font-medium text-gray-700">
+              Subledgers
+                   </a>                  
+        </li>
+        <li class="">                         
+            <a href="#" class="flex justify-between font-medium text-gray-700">
+          Vendors
+                </a>                  
+    </li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class='bx bxs-cog' ></i>
+                            <span class="link_name">General Setup</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow'></i>
+                    </div>
+                    <ul class="sub-menu ">
+                        <div class="flex py-3 border-b border-gray-100  " x-data="{ open: false }">
+                            <button class="flex justify-between text-base hover:text-indigo-500 font-medium text-gray-500" @click="open = true"> Company Information</button>
+                            <div class="fixed right-0 z-[116]  top-0 left-0  flex items-center justify-center w-full bg-[#00000047]" x-show="open" style="min-height: 1100px; display: none;">
+                                    <div class="max-w-4xl py-16 px-16 mx-auto">     
+                                        <div class="bg-white rounded shadow-lg p-4 px-4 md:p-4 mb-4">
+                                       <div class="flex justify-between mb-4 items-center border-b border-gray-200 pb-4 mb-4">
+                                        <h2 class="text-gray-700 text-lg font-semibold">Edit your company</h2>      
+                                            <button @click="open = false" class="border border-transparent dark:text-gray-400 hover:text-indigo-600 dark:hover:text-gray-300" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-8 h-8 bi bi-x" viewBox="0 0 16 16">
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                       </div>
+                                       <div class="flex flex-wrap justify-between  mb-1 items-center">
+                                        <div class="w-full lg:w-1/2 px-4 ">                         
+                                            <h2 class="text-xl mb-6 text-left font-semibold text-gray-600 dark:text-gray-400">Company Logo</h2>
+                                            <div class="flex w-full  items-center mb-6  bg-grey-lighter">
+                                                <label class="w-64 h-64 flex flex-col justify-center items-center px-4 py-6 bg-white text-blue rounded-full shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-indigo-500 hover:text-white">
+                                                    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                                    </svg>
+                                                    <span class="mt-2 text-base leading-normal">Select a file</span>
+                                                    <input type='file' class="hidden" />
+                                                </label>
+                                            </div>
+                                            </div>
+                                        <div class="w-full lg:w-1/2 px-4 ">      
+                                     <div class="mb-4">
+                                         <label class="text-sm text-indigo-800" for="full_name">Address</label>
+                                         <input type="text" name="full_name" id="full_name" placeholder="Address " class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                       </div>
+                                       <div class="mb-4">
+                                         <label class="text-sm text-indigo-800" for="full_name">Phone</label>
+                                         <input type="text" name="full_name" id="full_name" placeholder="9851126095" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                       </div>
+                                       <div class="mb-4">
+                                         <label class="text-sm text-indigo-800" for="full_name">Email</label>
+                                         <input type="email" name="full_name"  placeholder="tathaastumobile17@gmail.com" id="full_name" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                       </div>                        
+                                            </div> 
+                                            <div class="w-full lg:w-1/2 px-4 lg:mb-0 mb-2">  
+                                            <div class="mb-4">
+                                                <label class="text-sm text-indigo-800" for="full_name">Website</label>
+                                                <input type="text" name="full_name" id="full_name" placeholder="web.com" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                              </div>
+                                              </div>
+                                              <div class="w-full lg:w-1/2 px-4 lg:mb-0 mb-2">
+                                              <div class="mb-4">
+                                                <label class="text-sm text-indigo-800" for="full_name">Vat/Pan No</label>
+                                                <input type="number" name="full_name" id="full_name" placeholder="604370383" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                              </div>
+                                            </div>
+                                              <div class="w-full lg:w-1/2 px-4 lg:mb-0 mb-2">
+                                            <div class="mb-4">
+                                                <label class="text-sm text-indigo-800" for="full_name">Contact Person</label>
+                                                <input type="text" name="full_name" id="full_name" placeholder="Dipesh Chaulagain" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                              </div>
+                                            </div>
+                                              <div class="w-full lg:w-1/2 px-4 lg:mb-0 mb-2">
+                                              <div class="mb-4">
+                                                <label class="text-sm text-indigo-800" for="full_name">Contact Person Phone</label>
+                                                <input type="text" name="full_name" id="full_name" placeholder="9851126095" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-gray-50" value="">
+                                              </div> 
+                                         </div> 
+                                        </div>                                  
+                               <div class="flex justify-end">
+                                <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-100 border border-transparent border-indigo-600 rounded-md shadow-sm bg-indigo-500 hover:text-gray-100 hover:bg-indigo-700 focus:outline-none dark:hover:bg-indigo-500 dark:text-gray-100 dark:bg-indigo-400 focus:ring-2 focus:ring-offset-2 dark:focus:ring-0 dark:focus:ring-offset-0 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">Save</button>
+                                    <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-100 border border-transparent border-red-600 rounded-md shadow-sm bg-red-500 hover:text-gray-100 hover:bg-red-700 focus:outline-none dark:hover:bg-red-500 dark:text-gray-100 dark:bg-red-400 focus:ring-2 focus:ring-offset-2 dark:focus:ring-0 dark:focus:ring-offset-0 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>  
+                     </div> 
+                    <li class="">                         
+                        <a href="#" class="flex justify-between font-medium text-gray-700">
+                    Report Print Setting
+                          </a>                  
+                </li>
+                <li class="">                         
+                    <a href="#" class="flex justify-between font-medium text-gray-700">
+                 Role Management
+                       </a>                  
+            </li>
+            <li class="">                         
+                <a href="#" class="flex justify-between font-medium text-gray-700">
+             User Management
+                    </a>                  
+        </li>
+        <div class="flex py-3 border-b border-gray-100  " x-data="{ open: false }">
+            <button class="flex justify-between text-sm font-medium text-gray-500" @click="open = true">Document Numbering</button>
+            <div class="fixed right-0 z-[116]  top-0 left-0  flex items-center justify-center w-full bg-[#00000047]" x-show="open" style="min-height: 1100px; display: none;">
+               
+                    <div class="max-w-6xl py-16 px-16 mx-auto">     
+                        <div class="bg-white rounded shadow-lg p-4 px-4 md:p-4 mb-4">
+                       <div class="flex justify-between mb-4 items-center border-b border-gray-200 pb-4 mb-4">
+                        <h2 class="text-gray-700 text-lg font-semibold">Add New Document Number</h2>      
+                            <button @click="open = false" class="border border-transparent dark:text-gray-400 hover:text-indigo-600 dark:hover:text-gray-300" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-8 h-8 bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                    </path>
+                                </svg>
+                            </button>
+                       </div>
+                       <div class="mb-6 px-4">
+                        <label class="text-sm text-indigo-800" for="country_name">Document</label>
+                        <select name="" id="" class="block w-full p-2 mt-1 text-sm bg-gray-100 border border-gray-200 text-sm rounded-md text-gray-500 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                            <option value="">Select</option>
+                            <option value="">Purchase</option>
+                            <option value="">Sales</option>
+                        </select>
+                      </div>
+                      <div class="flex flex-wrap items-center mb-4">
+                        <div class="w-full lg:w-1/2 px-3">
+<div class="bg-gray-100  border  border-gray-200 rounded-md p-4">
+<h2 class="text-base mb-4 font-semibold text-gray-700">Old Numbering</h2>
+<div class="mb-4">
+    <label class="text-sm text-indigo-800" for="full_name">Start Number</label>
+   
+    <input type="number" name="full_name" id="full_name" placeholder="1" class="h-10 border border-gray-200 mt-1 text-sm rounded px-4 w-full bg-white" value="">
+  </div>
+  <div class="flex gap-2 ">
+    <div class="mb-4">
+        <label class="text-sm text-indigo-800" for="full_name">Prefix</label>
+       
+        <input type="number" name="full_name" id="full_name" placeholder="SIV-" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-white border-gray-200" value="">
+      </div>
+      <div class="mb-4">
+        <label class="text-sm text-indigo-800" for="full_name">Sufix</label>
+       
+        <input type="number" name="full_name" id="full_name" placeholder="-79/80" class="h-10  mt-1 text-sm rounded px-4 w-full border bg-white border-gray-200" value="">
+      </div>
+  </div>
+  <div class="mb-4">
+    <label class="text-sm text-indigo-800" for="full_name">Total digits</label>
+   
+    <input type="number" name="full_name" id="full_name" placeholder="1" class="h-10 border border-gray-200 mt-1 text-sm rounded px-4 w-full bg-white" value="">
+  </div>
+
+</div>
+                        </div>
+                        <div class="w-full lg:w-1/2 px-3">
+                            <div class="bg-gray-100 rounded-md  border  border-gray-200 p-4">
+                            <h2 class="text-base mb-4 font-semibold text-gray-700">New Numbering</h2>
+                            <div class="mb-4">
+                                <label class="text-sm text-indigo-800" for="full_name">Start Number</label>
+                               
+                                <input type="number" name="full_name" id="full_name" placeholder="1" class="h-10 border border-gray-200 mt-1 text-sm rounded px-4 w-full bg-white" value="">
+                              </div>
+                              <div class="flex gap-2 ">
+                                <div class="mb-4">
+                                    <label class="text-sm text-indigo-800" for="full_name">Prefix</label>
+                                   
+                                    <input type="number" name="full_name" id="full_name" placeholder="SIV-" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-white border-gray-200" value="">
+                                  </div>
+                                  <div class="mb-4">
+                                    <label class="text-sm text-indigo-800" for="full_name">Sufix</label>
+                                   
+                                    <input type="number" name="full_name" id="full_name" placeholder="-79/80" class="h-10 border mt-1 text-sm rounded px-4 w-full bg-white border-gray-200" value="">
+                                  </div>
+                              </div>
+                              <div class="mb-4">
+                                <label class="text-sm text-indigo-800" for="full_name">Total digits</label>
+                               
+                                <input type="number" name="full_name" id="full_name" placeholder="1" class="h-10 border border-gray-200 mt-1 text-sm rounded px-4 w-full bg-white" value="">
+                              </div>
+                            
+                            </div>
+                                                    </div>
+                      </div>
+                                                        
+               <div class="flex justify-end">
+                <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-100 border border-transparent border-indigo-600 rounded-md shadow-sm bg-indigo-500 hover:text-gray-100 hover:bg-indigo-700 focus:outline-none dark:hover:bg-indigo-500 dark:text-gray-100 dark:bg-indigo-400 focus:ring-2 focus:ring-offset-2 dark:focus:ring-0 dark:focus:ring-offset-0 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">Save</button>
+                    <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-gray-100 border border-transparent border-red-600 rounded-md shadow-sm bg-red-500 hover:text-gray-100 hover:bg-red-700 focus:outline-none dark:hover:bg-red-500 dark:text-gray-100 dark:bg-red-400 focus:ring-2 focus:ring-offset-2 dark:focus:ring-0 dark:focus:ring-offset-0 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
+                </div>
+            </div>
+            </div>
+        </div>  
+     </div> 
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <section class="home-section dark:bg-gray-800">
+            <section class="border-b  sticky top-0 z-40 px-3 py-2.5 bg-white  dark:text-gray-100 dark:bg-gray-900 lg:px-5">
+                <nav class="relative">
+                    <div class="flex flex-wrap  items-center justify-between">
+                        <div class="home-content"> <i class='bx bx-menu'></i></div>
+                        <div class="hidden lg:flex items-center">
+                            <div class=" flex flex-wrap items-center justify-start">
+                                <div class="group relative inline-block mr-4">
+                                    <button
+                                        class=" inline-flex  text-base font-semibold dark:text-gray-300 text-gray-700 hover:text-indigo-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="w-5 h-5 bi bi-envelope" viewBox="0 0 16 16">
+                                            <path
+                                                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded bg-black py-[6px] px-4 text-sm font-semibold text-white opacity-0 group-hover:opacity-100">
+                                        <span
+                                            class="absolute top-[-3px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm bg-black"></span>
+                                        G-mail
+                                    </div>
+                                </div>
+                                <div class="group relative inline-block mr-4">
+                                    <button
+                                        class=" inline-flex  text-base font-semibold  dark:text-gray-300 text-gray-700 hover:text-indigo-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="w-5 h-5 bi bi-calendar-week" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z">
+                                            </path>
+                                            <path
+                                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded bg-black py-[6px] px-4 text-sm font-semibold text-white opacity-0 group-hover:opacity-100">
+                                        <span
+                                            class="absolute top-[-3px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm bg-black"></span>
+                                        Calendar
+                                    </div>
+                                </div>
+                                <div class="group relative inline-block mr-4">
+                                    <button
+                                        class=" inline-flex  text-base font-semibold text-gray-700  dark:text-gray-300 hover:text-indigo-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="w-5 h-5 bi bi-chat-left-dots" viewBox="0 0 16 16">
+                                            <path
+                                                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z">
+                                            </path>
+                                            <path
+                                                d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded bg-black py-[6px] px-4 text-sm font-semibold text-white opacity-0 group-hover:opacity-100">
+                                        <span
+                                            class="absolute top-[-3px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45 rounded-sm bg-black"></span>
+                                        Message
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div class="hidden lg:flex items-center">
+                            <div class="pr-3  ">
+                                <select name="" id=""
+                                    class="block w-auto p-2 text-base bg-gray-100 border border-gray-300 rounded-md cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                    <option value="">Tathaastu Mobile Pvt. Ltd.</option>
+                                    <option value="">Sort by Popularity</option>
+                                    <option value="">Sort by Price</option>
+                                </select>
+                            </div>
+                            <div class="pr-3 ">
+                                <select name="" id=""
+                                    class="block w-auto p-2 text-base bg-gray-100 border border-gray-300 rounded-md cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                                    <option value="">2079/2080.</option>
+                                    <option value="">2079/2080</option>
+                                    <option value="">2079/2080</option>
+                                </select>
+                            </div>
+                        </div>
+                      
+                        <div class="flex items-center">
+                            <div class="relative mr-4 ">
+                                <a href="#">
+                                    <svg mlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="text-gray-400" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z">
+                                        </path>
+                                        <path
+                                            d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="block mr-4 md:hidden">
+                                <a href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        fill="currentColor" class="text-gray-400" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                                        </path>
+                                    </svg></a>
+                            </div>
+                            <div class="relative mr-4 text-left lg:inline-block" x-data="{ open: false }">
+                                <div class="lg:block" @click="open = ! open">
+                                    <button class="flex items-center">
+                                        
+                                        
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                            class="text-gray-400" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z">
+                                            </path>
+                                        </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div x-show="open" id="dropdown_profile"
+                                    class="absolute right-0 w-64 mt-5 origin-top-right bg-white rounded shadow dark:bg-gray-800 dark:text-gray-100 dark:bg-gray-700"
+                                    style="display: none;">
+                                    <div class="py-2">
+                                        <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                                            <img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80" alt="avatar">
+                                            <p class="text-gray-600 text-sm mx-2">
+                                                <span class="font-bold" href="#">Sara Salah</span> replied on the <span class="font-bold text-indigo-500" href="#">Upload Image</span> artical . 2m
+                                            </p>
+                                        </a>
+                                        <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                                            <img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80" alt="avatar">
+                                            <p class="text-gray-600 text-sm mx-2">
+                                                <span class="font-bold" href="#">Slick Net</span> start following you . 45m
+                                            </p>
+                                        </a>
+                                        <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                                            <img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1450297350677-623de575f31c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80" alt="avatar">
+                                            <p class="text-gray-600 text-sm mx-2">
+                                                <span class="font-bold" href="#">Jane Doe</span> Like Your reply on <span class="font-bold text-indigo-500" href="#">Test with TDD</span> artical . 1h
+                                            </p>
+                                        </a>
+                                        <a href="#" class="flex items-center px-4 py-3 hover:bg-gray-100 -mx-2">
+                                            <img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=398&amp;q=80" alt="avatar">
+                                            <p class="text-gray-600 text-sm mx-2">
+                                                <span class="font-bold" href="#">Abigail Bennett</span> start following you . 3h
+                                            </p>
+                                        </a>
+                                    </div><a href="#" class="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>
+                                </div>
+                            </div>
+                            
+                            <div class="relative text-left lg:inline-block" x-data="{ open: false }">
+                                <div class="lg:block" @click="open = ! open">
+                                    <button class="flex items-center">
+                                        <div class="hidden mr-3 text-right md:block">
+                                            <a href="#" class="text-sm font-bold text-black dark:text-gray-400"> John Doe
+                                            </a>
+                                        </div>
+                                        <div class="mr-2">
+                                            <img src="https://i.postimg.cc/pr2Q6n1w/pexels-italo-melo-2379005.jpg"
+                                                class="object-cover object-right w-10 h-10 rounded-full" alt="person">
+                                        </div>
+                                        <span>
+                                            <svg class="text-gray-400" width="10" height="6" viewBox="0 0 10 6" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M9.08335 0.666657C8.75002 0.333323 8.25002 0.333323 7.91669 0.666657L5.00002 3.58332L2.08335 0.666657C1.75002 0.333323 1.25002 0.333323 0.916687 0.666657C0.583354 0.99999 0.583354 1.49999 0.916687 1.83332L4.41669 5.33332C4.58335 5.49999 4.75002 5.58332 5.00002 5.58332C5.25002 5.58332 5.41669 5.49999 5.58335 5.33332L9.08335 1.83332C9.41669 1.49999 9.41669 0.99999 9.08335 0.666657Z"
+                                                    fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                                <div x-show="open" id="dropdown_profile"
+                                    class="absolute right-0 w-48 mt-3 origin-top-right bg-white rounded shadow dark:bg-gray-800 dark:text-gray-100 dark:bg-gray-700"
+                                    style="display: none;">
+                                    <div class="py-1">
+                                        <a href="#"
+                                            class="flex px-4 py-2 text-sm text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100">
+                                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                                <path
+                                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                                                </path>
+                                            </svg>
+                                            Account
+                                        </a>
+                                        <a href="#"
+                                            class="flex px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-800 dark:text-gray-400 hover:bg-gray-100">
+                                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                                <polyline points="16 17 21 12 16 7"></polyline>
+                                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                                            </svg>
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </section>
+        <section class="py-16 ">
+            <div class="container mx-auto px-4">
+                <div class="mb-10 grid grid-cols-[30%,70%] gap-6">
+                    <div class="bg-gray-50  p-6">
+                        <div class="flex items-center mb-10">
+                            <img src="assets/images/u2.jpg" alt="" class="w-10 h-10 mr-4 object-cover rounded-full">
+                        <div class="relative w-full text-gray-600">
+                            <input type="search" name="serch" placeholder="Search"
+                                class="bg-gray-100 border w-full border-gray-200 h-10 px-10 rounded-full text-sm focus:outline-none">
+                            <button type="submit" class="absolute left-0 top-0 mt-3 ml-4">
+                                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                    viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                                    xml:space="preserve" width="512px" height="512px">
+                                    <path
+                                        d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-semibold">Chats</h2>
+                    <div class="border-b border-red-500 pb-2 w-20 mb-6"></div>
+                    <div class="flex items-center border-b border-gray-200 pb-2 mb-6">
+                        <img src="assets/images/u2.jpg" alt="" class="w-10 h-10 mr-4 object-cover rounded-full">
+                        <div >
+                            <div class="text-lg font-semibold">Luis1994</div>
+                            <span class="text-gray-500">Pick me at 9:00 Am</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center border-b border-gray-200 pb-2 mb-6">
+                        <img src="assets/images/u2.jpg" alt="" class="w-10 h-10 mr-4 object-cover rounded-full">
+                        <div >
+                            <div class="text-lg font-semibold">Luis1994</div>
+                            <span class="text-gray-500">Pick me at 9:00 Am</span>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-semibold">Contacts</h2>
+                    <div class="border-b border-red-500 pb-2 w-20 mb-6"></div>
+                    <div class="flex items-center border-b border-gray-200 pb-2 mb-6">
+                        <img src="assets/images/u2.jpg" alt="" class="w-10 h-10 mr-4 object-cover rounded-full">
+                        <div >
+                            <div class="text-lg font-semibold">Luis1994</div>
+                            <span class="text-gray-500">Pick me at 9:00 Am</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center border-b border-gray-200 pb-2 mb-6">
+                        <img src="assets/images/u2.jpg" alt="" class="w-10 h-10 mr-4 object-cover rounded-full">
+                        <div >
+                            <div class="text-lg font-semibold">Luis1994</div>
+                            <span class="text-gray-500">Pick me at 9:00 Am</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50  p-6">
+                    <div class="flex flex-col mt-5">
+                        <div class="flex  justify-end mb-10">
+                            <div class="relative">
+                            <h2 class="mr-2 mb-2 py-3 px-4 bg-blue-500 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                                Welcome to group everyone !
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:45am</span>
+                            </div>
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                       
+                        </div>
+                        <div class="flex  justify-start mb-10">
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                            <div class="relative">
+                            <h2 class="ml-2 py-3 px-4 mb-4 bg-gray-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-gray-700">
+                              Hi!  Could you describe web in one sentence?
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:45am</span>
+                            </div>
+                        </div>
+                        <div class="flex  justify-end mb-10">
+                            <div class="relative">
+                            <h2 class="mr-2 mb-2 py-3 px-4 bg-blue-500 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                              Web is used to show design. Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
+                              perspiciatis!..
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:45am</span>
+                            </div>
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                       
+                        </div>
+                        <div class="flex  justify-start mb-10">
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                            <div class="relative">
+                            <h2 class="ml-2 py-3 px-4 mb-4 bg-gray-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-gray-700">
+                           Thank your for your guidelines. Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
+                           perspiciatis!..
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:45am</span>
+                            </div>
+                        </div>
+                        <div class="flex  justify-end mb-10">
+                            <div class="relative">
+                            <h2 class="mr-2 mb-2 py-3 px-4 bg-blue-500 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                               Yes! Sure.
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:48am</span>
+                            </div>
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                       
+                        </div>
+                        <div class="flex  justify-start mb-10">
+                            <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600" class="object-cover h-14 w-14 rounded-full" alt="">
+                            <div class="relative">
+                            <h2 class="ml-2 py-3 px-4 mb-4 bg-gray-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-gray-700">
+                                Great, Thank You!
+                            </h2>
+                            <span class="absolute right-0 text-gray-500 text-sm ">7:49am</span>
+                            </div>
+                        </div>
+                       
+                            <div class="flex items-center py-2 px-3 bg-gray-50 rounded-lg dark:bg-gray-700">
+                                <button type="button" class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>
+                                </button>
+                                <button type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clip-rule="evenodd"></path></svg>
+                                </button>
+                       
+                        <textarea id="chat" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
+                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                        <svg class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                    </button>
+                    </div>
+                   
+                    </div>  
+                    </div>
+            </div>
+        </section>
+
+    </section>
+    <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+</body>
+
+</html>
